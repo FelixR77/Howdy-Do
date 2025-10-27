@@ -16,6 +16,8 @@ mongoose.connection.on('connected', () => {
 const Product = require('./models/HowdyDo.js') 
 // important that this is established after connection to Mongo (lines 12-14)
 
+app.use(express.urlencoded({ extended: false }));
+
 
 
 
@@ -42,6 +44,16 @@ app.get("/products", async (req, res) => {
 app.get("/cart", async (req, res) => {
     res.render('cart.ejs')
 });
+
+app.get("/new-product", async (req, res) => {
+    res.render('new-product.ejs')
+});
+
+app.post('/product', async (req, res) => {
+   
+    await Product.create(req.body);
+    res.redirect('products.ejs')
+})
 
 
 

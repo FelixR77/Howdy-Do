@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Product</title>
+</head>
+<body>
+    <header>
+        <h1>Add a new product</h1>
+    </header>
+    <form action="/product" method="POST">
+        <label for="name">Name:</label>
+        <input type="text" name="name" id="name" required/>
+        <br>
+        <label for="price">Price:</label>
+        <input type="number" name="price" id="price" required/>
+        <br>
+        <label for="quantity">Units Available:</label>
+        <input type="number" name="quantity" id="quantity" required/>
+        <br>
+        <label for="description">Product Description:</label>
+        <textarea type="text" name="description" id="description" maxlength='399' rows="4" required></textarea>
+
+    </form>
+</body>
+</html>
