@@ -6,9 +6,12 @@ const productSchema = new mongoose.Schema({
         required: true,
         trim: true, //keeps data consistency by eliminating spaces.
     },
-    description: String,
+    
+    description: {
+        type: String,
+    },
 
-    priceCents: {
+    price: {
         type: Number,
         min: 0,
         required: true,  
@@ -20,9 +23,9 @@ const productSchema = new mongoose.Schema({
     // validators are used to make sure data stays consistent from the start. 
     // learned about best practice when using pricing in models. JS sometimes makes mistakes when
     // rounding decimals. So best practice is to 'store integer cents'. Learn more about this and
-    // JS floats rounding errors. This storage of PriceInCents will be in server.js
+    // JS floats rounding errors. This storage of price in cents will be in server.js
 
-    stockQuantity: {
+    quantity: {
         type: Number,
         required: true, 
         min: 0,

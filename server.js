@@ -38,7 +38,8 @@ app.get("/stories", async (req, res) => {
 });
 
 app.get("/products", async (req, res) => {
-    res.render('products.ejs')
+    const allProducts = await Product.find();
+    res.render('products.ejs', {products: allProducts})
 });
 
 app.get("/cart", async (req, res) => {
@@ -49,13 +50,36 @@ app.get("/new-product", async (req, res) => {
     res.render('new-product.ejs')
 });
 
+
+
 app.post('/product', async (req, res) => {
-   
-    await Product.create(req.body);
-    res.redirect('products.ejs')
-})
+   try {
+    const productData = {
+        name: req.body.name,
+        description: req.body.description,
+        quantity: parseInt(req.body.quantity, 10),
+        // parseInt makes a string into an integer. When numbers come into
+        // req.body they are still strings. parseInt helps to change the data type into a number
+        price: Math.round(parseFloat(req.body.price) * 100) 
+        // Math.round takes a number and rounds to nearest integer. Multiplying by 100 and
+        // rounding using math.round stores the 'price' as integer cents.
+        // when displaying the price, we have to divide by 100 or the site visitor
+        // will see the price in cents. <%= (product.price / 100) %>
+    };
+    const newProduct = await Product.create(productData);
+    res.redirect('/products')
+   } catch (err) {
+    console.error(err);
+    res.status(500).send('Error: Cant save Product')
+   }
+});
+// had to add a conversion step because the floating-point math in 
+// JS can be wrong when dealing with fractions. 
 
-
+app.get('/products/:productId', async (req, res) => {
+    const foundProduct = await Product.findById(req.params.productId);
+    res.render('product-page.ejs', {product: foundProduct});
+});
 
 
 

@@ -7,6 +7,7 @@
 </head>
 <body>
     <header>
+        <%- include ('partials/nav') %>
         <h1>Add a new product</h1>
     </header>
     <form action="/product" method="POST">
@@ -14,13 +15,15 @@
         <input type="text" name="name" id="name" required/>
         <br>
         <label for="price">Price:</label>
-        <input type="number" name="price" id="price" required/>
+        <input type="text" name="price" id="price" required/>
         <br>
         <label for="quantity">Units Available:</label>
         <input type="number" name="quantity" id="quantity" required/>
         <br>
         <label for="description">Product Description:</label>
         <textarea type="text" name="description" id="description" maxlength='399' rows="4" required></textarea>
+        <br>
+        <button type="submit">Add Product</button>
 
     </form>
 </body>
