@@ -12,8 +12,14 @@
     <h2>$<%= (product.price / 100)  %></h2>
     <h2>There are <%= product.quantity %> left in stock!</h2>
 
-    Add a button on this page so that the user can select the amount they want to
-    purchase and add that amount into their cart. 
+    <form action="/cart" method="POST">
+        <input type="hidden" name="product" value="<%= product %>">
+        <!-- Study and understand what is going on in line 16 -->
+        <label>Quantity</label>
+        <input type="number" name="quantity" min="1" value="1" required>
+        <button>Add to Cart</button>
+    </form>
+
 
 
 

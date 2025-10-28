@@ -7,7 +7,16 @@
 </head>
 <body>
     <%- include('partials/nav') %> 
-    <h1>Cart</h1>
+    <h1> Your Cart</h1>
+    <ul>
+        <% cartItems.forEach(cart => { %>
+            <li>
+                <h2><%= cart.product.name %></h2>
+                <p>Quantity: <%= cart.quantity %></p>
+                <p>Price: $<%= (cart.product.price / 100) %></p>
+            </li>
+        <% }); %>
+    </ul>
 
 </body>
 </html>

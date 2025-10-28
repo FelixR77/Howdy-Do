@@ -13,8 +13,9 @@ mongoose.connection.on('connected', () => {
     console.log('connected to Mongo')
 });
 
-const Product = require('./models/HowdyDo.js') 
-// important that this is established after connection to Mongo (lines 12-14)
+const Product = require('./models/products.js') 
+const Cart = require('./models/cartItem.js')
+// important that models are connected  after connection to Mongo (lines 12-14)
 
 app.use(express.urlencoded({ extended: false }));
 
@@ -53,7 +54,6 @@ app.get("/new-product", async (req, res) => {
 
 
 app.post('/product', async (req, res) => {
-   try {
     const productData = {
         name: req.body.name,
         description: req.body.description,
@@ -66,15 +66,17 @@ app.post('/product', async (req, res) => {
         // when displaying the price, we have to divide by 100 or the site visitor
         // will see the price in cents. <%= (product.price / 100) %>
     };
-    const newProduct = await Product.create(productData);
+    await Product.create(productData);
     res.redirect('/products')
-   } catch (err) {
-    console.error(err);
-    res.status(500).send('Error: Cant save Product')
-   }
-});
+   } 
+);
 // had to add a conversion step because the floating-point math in 
 // JS can be wrong when dealing with fractions. 
+
+app.post('/cart', async (req, res) => {
+    const cartItems = await Cart.find().populate('product'); 
+    res.render('cart.ejs', {cartItems});
+});
 
 app.get('/products/:productId', async (req, res) => {
     const foundProduct = await Product.findById(req.params.productId);
