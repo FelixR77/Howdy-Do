@@ -13,12 +13,11 @@ mongoose.connection.on('connected', () => {
     console.log('connected to Mongo')
 });
 
+const Cart = require('./models/cart.js')
 const Product = require('./models/products.js') 
-const Cart = require('./models/cartItem.js')
 // important that models are connected  after connection to Mongo (lines 12-14)
 
 app.use(express.urlencoded({ extended: false }));
-
 
 
 
@@ -43,15 +42,20 @@ app.get("/products", async (req, res) => {
     res.render('products.ejs', {products: allProducts})
 });
 
-app.get("/cart", async (req, res) => {
-    res.render('cart.ejs')
-});
 
 app.get("/new-product", async (req, res) => {
     res.render('new-product.ejs')
 });
 
+app.get("/cart", async (req, res) => {
+    const cartItems = await Cart.find().populate('product');
+    res.render("cart.ejs", {cartItems});
+});
 
+app.post('/cart', async (req, res) => {
+    await Cart.create(req.body)
+    res.redirect('/cart');
+});
 
 app.post('/product', async (req, res) => {
     const productData = {
@@ -73,10 +77,6 @@ app.post('/product', async (req, res) => {
 // had to add a conversion step because the floating-point math in 
 // JS can be wrong when dealing with fractions. 
 
-app.post('/cart', async (req, res) => {
-    const cartItems = await Cart.find().populate('product'); 
-    res.render('cart.ejs', {cartItems});
-});
 
 app.get('/products/:productId', async (req, res) => {
     const foundProduct = await Product.findById(req.params.productId);

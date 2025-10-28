@@ -1,10 +1,12 @@
 const mongoose = require('mongoose');
-const Product = require('./products');
 
 const cartItemsSchema = new mongoose.Schema({
-    product: {
+    product: { 
+        ref: 'Product',
         type: mongoose.Schema.Types.ObjectId, 
-        ref: Product,
+        //connects the ObjectId from Products Schema to this field. Telling this new
+        //model to get the data from the other model. Because we are getting the product name
+        //from Product Schema, we dont need to include it here. 
         required: true
 //Understand this section, specifically line 5. 
     },
@@ -12,7 +14,7 @@ const cartItemsSchema = new mongoose.Schema({
         type: Number,
         required: true,
         min: 1,
-        validator: Number.isInteger, message: 'Quantity must be a whole number.'
+        validate: Number.isInteger, message: 'Quantity must be a whole number.'
     }
 });
 

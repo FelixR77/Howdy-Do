@@ -8,6 +8,10 @@
 <body>
     <%- include('partials/nav') %> 
     <h1> Your Cart</h1>
+
+    <% if (cartItems.length === 0) { %>
+        <p>Your Cart is Empty</p>
+    <% } else { %>
     <ul>
         <% cartItems.forEach(cart => { %>
             <li>
@@ -17,6 +21,7 @@
             </li>
         <% }); %>
     </ul>
+    <% } %>
 
 </body>
 </html>

@@ -13,7 +13,7 @@
     <h2>There are <%= product.quantity %> left in stock!</h2>
 
     <form action="/cart" method="POST">
-        <input type="hidden" name="product" value="<%= product %>">
+        <input type="hidden" name="product" value="<%= product._id %>">
         <!-- Study and understand what is going on in line 16 -->
         <label>Quantity</label>
         <input type="number" name="quantity" min="1" value="1" required>
