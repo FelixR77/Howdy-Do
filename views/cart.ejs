@@ -12,16 +12,32 @@
     <% if (cartItems.length === 0) { %>
         <p>Your Cart is Empty</p>
     <% } else { %>
-    <ul>
-        <% cartItems.forEach(cart => { %>
-            <li>
-                <h2><%= cart.product.name %></h2>
-                <p>Quantity: <%= cart.quantity %></p>
-                <p>Price: $<%= (cart.product.price / 100) %></p>
-            </li>
-        <% }); %>
-    </ul>
+        <ul>
+            <% cartItems.forEach(item => { %>
+                <li>
+                    <h2><%= item.product.name %></h2>
+                    <p>In Stock: <%= item.product.quantity %></p>
+                    <p>In your Cart: <%= item.quantity %></p>
+                    <p>Price: $<%= (item.product.price / 100) %></p>
+                    <form action="/cart/<%= item._id %>?_method=PUT" method="POST">
+                        <label>Update Quantity</label>
+                        <input type="number" name="quantity" min="1" max="<%= item.product.quantity %>" value="<%= item.quantity %>">
+                    </form>
+
+
+                    <form action="/cart/<%= item._id %>?_method=DELETE" method="POST">
+                        <button type="submit">Remove <%= item.product.name %> from Cart</button>
+                    </form>
+             </li>
+            <% }); %>
+        </ul>
     <% } %>
+
+
+    <form action="/cart/checkout" method="POST">
+        <button type="submit">Complete Purchase</button>
+    </form>
+    
 
 </body>
 </html>

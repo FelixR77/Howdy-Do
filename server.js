@@ -18,6 +18,8 @@ const Product = require('./models/products.js')
 // important that models are connected  after connection to Mongo (lines 12-14)
 
 app.use(express.urlencoded({ extended: false }));
+app.use(methodOverride("_method"));
+app.use(morgan("dev")); 
 
 
 
@@ -47,15 +49,16 @@ app.get("/new-product", async (req, res) => {
     res.render('new-product.ejs')
 });
 
+app.post('/cart', async (req, res) => {
+    await Cart.create(req.body)
+    res.redirect('/cart');
+});
+
 app.get("/cart", async (req, res) => {
     const cartItems = await Cart.find().populate('product');
     res.render("cart.ejs", {cartItems});
 });
 
-app.post('/cart', async (req, res) => {
-    await Cart.create(req.body)
-    res.redirect('/cart');
-});
 
 app.post('/product', async (req, res) => {
     const productData = {
@@ -78,11 +81,45 @@ app.post('/product', async (req, res) => {
 // JS can be wrong when dealing with fractions. 
 
 
+app.post('/cart/checkout', async (req, res) => {
+    const cartItems = await Cart.find().populate('product');
+    for (const item of cartItems) {
+        if (item.quantity > item.product.quantity) {
+            return res.send(`Not enough in stock of ${item.product.name}`);
+        }
+    }
+
+    for (const item of cartItems) {
+        const stockUpdate = item.product.quantity - item.quantity;
+        await Product.findByIdAndUpdate(item.product._id, {quantity: stockUpdate});
+    }
+
+    await Cart.deleteMany({});
+
+    res.send('Thank you for your purchase!')
+})
+
+
+app.put('/cart/:productId', async (req, res) => {
+    const newQuantity = req.body.quantity
+    const cartItem = await Cart.findById(req.params.id).populate('product')
+
+    if (newQuantity > cartItem.product.quantity) {
+        return res.send('Cannot order more than currently stocked')
+    }
+    await Cart.findByIdAndUpdate(req.params.id, { quantity: newQuantity});
+    res.redirect('/cart');
+});
+
+app.delete('/cart/:productId', async (req, res) => {
+    await Cart.findByIdAndDelete(req.params.productId);
+    res.redirect('/cart');
+});
+
 app.get('/products/:productId', async (req, res) => {
     const foundProduct = await Product.findById(req.params.productId);
     res.render('product-page.ejs', {product: foundProduct});
 });
-
 
 
 

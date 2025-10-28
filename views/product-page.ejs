@@ -16,7 +16,7 @@
         <input type="hidden" name="product" value="<%= product._id %>">
         <!-- Study and understand what is going on in line 16 -->
         <label>Quantity</label>
-        <input type="number" name="quantity" min="1" value="1" required>
+        <input type="number" name="quantity" min="1" max="<%= product.quantity %>" value="1" required>
         <button>Add to Cart</button>
     </form>
 
