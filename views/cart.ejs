@@ -34,10 +34,14 @@
     <% } %>
 
 
-    <form action="/cart/checkout" method="POST">
-        <button type="submit">Complete Purchase</button>
-    </form>
-    
-
+        <% if (cartItems.length === 0) { %>
+            <form action="/cart/checkout" method="POST">
+            <button type="submit" disabled>Complete Purchase</button>
+            </form>
+        <% } else { %>
+            <form action="/cart/checkout" method="POST">
+            <button type="submit">Complete Purchase</button>
+            </form>
+        <% } %>
 </body>
 </html>

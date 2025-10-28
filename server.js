@@ -49,6 +49,10 @@ app.get("/new-product", async (req, res) => {
     res.render('new-product.ejs')
 });
 
+app.get("/thank-you", async (req, res) => {
+    res.render('thank-you.ejs')
+})
+
 app.post('/cart', async (req, res) => {
     await Cart.create(req.body)
     res.redirect('/cart');
@@ -85,7 +89,7 @@ app.post('/cart/checkout', async (req, res) => {
     const cartItems = await Cart.find().populate('product');
     for (const item of cartItems) {
         if (item.quantity > item.product.quantity) {
-            return res.send(`Not enough in stock of ${item.product.name}`);
+            return alert(`Not enough in stock of ${item.product.name}`);
         }
     }
 
@@ -93,11 +97,10 @@ app.post('/cart/checkout', async (req, res) => {
         const stockUpdate = item.product.quantity - item.quantity;
         await Product.findByIdAndUpdate(item.product._id, {quantity: stockUpdate});
     }
-
     await Cart.deleteMany({});
-
-    res.send('Thank you for your purchase!')
-})
+    res.redirect('/thank-you');
+}
+);
 
 
 app.put('/cart/:productId', async (req, res) => {
