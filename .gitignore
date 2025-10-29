@@ -1,2 +1,38 @@
 .env
 node_modules
+
+
+
+
+
+
+Notes on Auth:
+1. install dependencies:
+npm i ejs bcrypt express-session connect-mongo passport passport-local
+
+2. add MONGODB_URI and SESSION_SECRET. 
+What are these and how do they relate, or fit, into my existing MONGODB_URI??
+
+3. Make folders/Files
+mkdir routes controllers views/auth config
+touch routes/auth.js config/passport.js views/auth/signup.ejs views/auth/login.ejs
+
+4. Make USER model
+Lots of new things in here to learn about. Look at comments in users.js
+
+5. Make passport.js in config folder.
+6. Configure Passport code ref: config/passport.js 
+
+7. make routes/auth.js
+
+8. make views/auth/signup.ejs
+
+9. make views/auth/login.ejs
+
+10. connect / require things into server.js 
+
+11. add sessions and passport (after the app.use stuff)
+
+12. add auth router above other routes.
+
+13. 

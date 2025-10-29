@@ -5,7 +5,19 @@ const mongoose = require('mongoose');
 const methodOverride = require('method-override');
 const morgan = require('morgan');
 
+// Auth changes *** 
+const path = require('path');
+const session = require('express-session');
+const MongoStore = require('connect-mongo');
+const passport = require('passport');
+require('./config/passport')(passport);
+// Auth Changes ** 
+
 const app = express();
+
+app.use(express.static(path.join(__dirname, 'public')));
+//connects everything inside directory public, 
+// including home.js file available to the browser. 
 
 mongoose.connect(process.env.MONGODB_URI); //connects to Mongo using mongoose
 
@@ -20,6 +32,39 @@ const Product = require('./models/products.js')
 app.use(express.urlencoded({ extended: false }));
 app.use(methodOverride("_method"));
 app.use(morgan("dev")); 
+
+//Auth changes *** --------------------------------------------------------------
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
+  store: MongoStore.create({ mongoUrl: process.env.MONGODB_URI }),
+  cookie: { maxAge: 1000 * 60 * 60 * 24 * 7 } // 7 days
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Make user available in EJS (nav, etc.)
+app.use((req, res, next) => {
+  res.locals.currentUser = req.user;
+  next();
+});
+
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+
+
+const authRouter = require('./routes/auth');
+app.use('/', authRouter);
+
+app.use((req, res, next) => {
+  // Should print 'ejs'
+  // If undefined, the engine isn't set before this router runs
+  console.log('view engine =', req.app.get('view engine'));
+  next();
+});
+
+// Auth changes *** ---------------------------------------------------------------
 
 
 
@@ -89,7 +134,7 @@ app.post('/cart/checkout', async (req, res) => {
     const cartItems = await Cart.find().populate('product');
     for (const item of cartItems) {
         if (item.quantity > item.product.quantity) {
-            return alert(`Not enough in stock of ${item.product.name}`);
+            return res.status(400).send(`Not enough in stock of ${item.product.name}`);
         }
     }
 
@@ -103,7 +148,7 @@ app.post('/cart/checkout', async (req, res) => {
 );
 
 
-app.put('/cart/:productId', async (req, res) => {
+app.put('/cart/:id', async (req, res) => {
     const newQuantity = req.body.quantity
     const cartItem = await Cart.findById(req.params.id).populate('product')
 
@@ -113,9 +158,9 @@ app.put('/cart/:productId', async (req, res) => {
     await Cart.findByIdAndUpdate(req.params.id, { quantity: newQuantity});
     res.redirect('/cart');
 });
-
-app.delete('/cart/:productId', async (req, res) => {
-    await Cart.findByIdAndDelete(req.params.productId);
+// Changed '/cart/:productId to /cart/:id in lines 146 and lines 135 for consistency. 
+app.delete('/cart/:id', async (req, res) => {
+    await Cart.findByIdAndDelete(req.params.id);
     res.redirect('/cart');
 });
 
@@ -123,11 +168,6 @@ app.get('/products/:productId', async (req, res) => {
     const foundProduct = await Product.findById(req.params.productId);
     res.render('product-page.ejs', {product: foundProduct});
 });
-
-
-
-
-
 
 
 

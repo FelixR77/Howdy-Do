@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><title>Create Account</title></head>
+<body>
+  <%- include('../partials/nav') %>
+  <h1>Create your HowdyDo account</h1>
+
+  <form action="/signup" method="POST">
+    <label>Email <input type="email" name="email" required></label><br>
+    <label>Password <input type="password" name="password" minlength="8" required></label><br>
+
+    <fieldset>
+      <legend>I am signing up as:</legend>
+      <label><input type="radio" name="role" value="member" checked> Shopper</label>
+      <label><input type="radio" name="role" value="vendor"> Vendor</label>
+    </fieldset>
+
+    <div id="vendorFields" style="display:none;">
+      <h3>Vendor Profile</h3>
+      <label>Display Name <input name="displayName"></label><br>
+      <label>Store Name <input name="storeName"></label><br>
+      <label>Website <input name="website"></label><br>
+    </div>
+
+    <button type="submit">Create Account</button>
+  </form>
+
+  <p>Already have an account? <a href="/login">Log in</a></p>
+
+  <script>
+    const radios = document.querySelectorAll('input[name="role"]');
+    const vendorFields = document.getElementById('vendorFields');
+    const toggle = () => {
+      const role = document.querySelector('input[name="role"]:checked').value;
+      vendorFields.style.display = role === 'vendor' ? 'block' : 'none';
+    };
+    radios.forEach(r => r.addEventListener('change', toggle));
+    toggle();
+  </script>
+</body>
+</html>
