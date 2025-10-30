@@ -1,15 +1,90 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Why</title>
-</head>
+<%- include('partials/header') %>
 <body>
     <%- include('partials/nav') %>
     <h1>Why HowdyDo was Born</h1>
 
     <p>Founded on Austin’s East Side, HowdyDo champions Main Street grit over corporate greed. In today’s tough job market, we believe everyone deserves a shot at entrepreneurship. Our mission: empower Austinites to build, buy, and thrive locally—one honest business at a time.</p>
-    
+    <%- include('partials/footer') %>
 </body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('partials/header', { title: 'Why HowdyDo Was Born' }) %>
+  <body class="bg-light">
+
+    <%- include('partials/nav') %>
+
+
+
+    <!-- ✨ Bootstrap-Styled Version -->
+    <section class="py-5 bg-white">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-8">
+
+            <!-- Page Title -->
+            <div class="text-center mb-4">
+              <h1 class="display-5 fw-bold text-primary">Why HowdyDo Was Born</h1>
+              <p class="text-muted mb-0">East Side roots. Main Street mindset.</p>
+            </div>
+
+            <!-- Mission Card -->
+            <div class="card shadow-sm border-0">
+              <div class="card-body p-4 p-md-5">
+                <p class="lead text-dark mb-4">
+                  Founded on Austin’s East Side, HowdyDo champions Main Street grit over corporate greed.
+                </p>
+                <p class="text-muted mb-3">
+                  In today’s tough job market, we believe everyone deserves a shot at entrepreneurship. Our mission is
+                  simple: empower Austinites to build, buy, and thrive locally—one honest business at a time.
+                </p>
+
+                <hr class="my-4">
+
+                <!-- Three Pillars -->
+                <div class="row g-4">
+                  <div class="col-md-4">
+                    <div class="text-center">
+                      <div class="fs-1 mb-2 text-primary">🏪</div>
+                      <h6 class="fw-semibold">Local First</h6>
+                      <p class="small text-muted">Tools and visibility for owner-operated businesses.</p>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="text-center">
+                      <div class="fs-1 mb-2 text-primary">🤝</div>
+                      <h6 class="fw-semibold">Community Powered</h6>
+                      <p class="small text-muted">Neighbors supporting neighbors—online and IRL.</p>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="text-center">
+                      <div class="fs-1 mb-2 text-primary">🌵</div>
+                      <h6 class="fw-semibold">Built in Austin</h6>
+                      <p class="small text-muted">Born on the East Side, made for the whole city.</p>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- CTA -->
+            <div class="text-center mt-5">
+              <a href="/auth/signup" class="btn btn-primary btn-lg px-4 fw-semibold">Join HowdyDo</a>
+              <a href="/products" class="btn btn-outline-primary btn-lg px-4 ms-2">Start Shopping</a>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+
+    <%- include('partials/footer') %>
+  </body>
 </html>

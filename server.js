@@ -5,17 +5,33 @@ const mongoose = require('mongoose');
 const methodOverride = require('method-override');
 const morgan = require('morgan');
 
-// Auth changes *** 
-const path = require('path');
-const session = require('express-session');
-const MongoStore = require('connect-mongo');
-const passport = require('passport');
-require('./config/passport')(passport);
-// Auth Changes ** 
 
 const app = express();
+app.use(express.urlencoded({ extended: false }));
 
-app.use(express.static(path.join(__dirname, 'public')));
+const port = process.env.PORT ? process.env.PORT : "3000";
+// comes in handy when deploying and we dont know in advance 
+// which port the hosting service will use. 
+// in the AWS lessons we edited the rules for which ports to use.
+// How does this tie in with that? 
+
+const authController = require("./controllers/auth.js");
+
+
+
+// ------------------------------------------------------------
+// // AI Auth changes *** 
+// const path = require('path');
+// const session = require('express-session');
+// const MongoStore = require('connect-mongo');
+// const passport = require('passport');
+// require('./config/passport')(passport);
+// // Auth Changes ** 
+// app.use(express.static(path.join(__dirname, 'public')));
+//  -----------------------------------------------------------
+
+
+
 //connects everything inside directory public, 
 // including home.js file available to the browser. 
 
@@ -28,49 +44,55 @@ mongoose.connection.on('connected', () => {
 const Cart = require('./models/cart.js')
 const Product = require('./models/products.js') 
 // important that models are connected  after connection to Mongo (lines 12-14)
+// Auth
+const User = require("./models/user.js");
 
-app.use(express.urlencoded({ extended: false }));
 app.use(methodOverride("_method"));
 app.use(morgan("dev")); 
 
-//Auth changes *** --------------------------------------------------------------
-app.use(session({
-  secret: process.env.SESSION_SECRET,
-  resave: false,
-  saveUninitialized: false,
-  store: MongoStore.create({ mongoUrl: process.env.MONGODB_URI }),
-  cookie: { maxAge: 1000 * 60 * 60 * 24 * 7 } // 7 days
-}));
-app.use(passport.initialize());
-app.use(passport.session());
+// AI Auth changes *** --------------------------------------------------------------
+// app.use(session({
+//   secret: process.env.SESSION_SECRET,
+//   resave: false,
+//   saveUninitialized: false,
+//   store: MongoStore.create({ mongoUrl: process.env.MONGODB_URI }),
+//   cookie: { maxAge: 1000 * 60 * 60 * 24 * 7 } // 7 days
+// }));
+// app.use(passport.initialize());
+// app.use(passport.session());
 
-// Make user available in EJS (nav, etc.)
-app.use((req, res, next) => {
-  res.locals.currentUser = req.user;
-  next();
-});
+// // Make user available in EJS (nav, etc.)
+// app.use((req, res, next) => {
+//   res.locals.currentUser = req.user;
+//   next();
+// });
 
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
+// app.set('view engine', 'ejs');
+// app.set('views', path.join(__dirname, 'views'));
 
 
-const authRouter = require('./routes/auth');
-app.use('/', authRouter);
+// const authRouter = require('./routes/auth');
+// app.use('/', authRouter);
 
-app.use((req, res, next) => {
-  // Should print 'ejs'
-  // If undefined, the engine isn't set before this router runs
-  console.log('view engine =', req.app.get('view engine'));
-  next();
-});
+// app.use((req, res, next) => {
+//   // Should print 'ejs'
+//   // If undefined, the engine isn't set before this router runs
+//   console.log('view engine =', req.app.get('view engine'));
+//   next();
+// });
 
 // Auth changes *** ---------------------------------------------------------------
+
 
 
 
 app.get("/", async (req, res) => {
     res.render('home.ejs')
 });
+
+// app.use("/auth", authController);
+// included to handle requests that match the /auth URL. 
+
 
 app.get("/why", async (req, res) => {
     res.render('why.ejs')

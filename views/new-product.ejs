@@ -1,15 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add New Product</title>
-</head>
-<body>
+
+  <%- include('partials/header', { title: 'Add New Product - HowdyDo' }) %> 
+
+  <body class="bg-light">
+
     <header>
-        <%- include ('partials/nav') %>
-        <h1>Add a new product</h1>
+      <%- include ('partials/nav') %>
     </header>
+
+
+
+
+
+    <!-- My Original Code -->
+    <h1>Add a new product</h1>
+
     <form action="/product" method="POST">
         <label for="name">Name:</label>
         <input type="text" name="name" id="name" required/>
@@ -24,7 +30,73 @@
         <textarea type="text" name="description" id="description" maxlength='399' rows="4" required></textarea>
         <br>
         <button type="submit">Add Product</button>
-
     </form>
-</body>
+
+
+
+
+
+    -- AI Bootstrap-Styled Version Below --
+    <div class="container my-5">
+      <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+          <div class="card shadow-sm border-0">
+            <div class="card-body p-4">
+              <h1 class="text-center mb-4 text-primary fw-bold">Add a New Product</h1>
+
+              <form action="/product" method="POST" class="needs-validation" novalidate>
+                <!-- Product Name -->
+                <div class="mb-3">
+                  <label for="name" class="form-label fw-semibold">Product Name</label>
+                  <input type="text" class="form-control" name="name" id="name" placeholder="e.g. Handmade Ceramic Mug" required>
+                  <div class="invalid-feedback">Please enter a product name.</div>
+                </div>
+
+                <!-- Price -->
+                <div class="mb-3">
+                  <label for="price" class="form-label fw-semibold">Price (USD)</label>
+                  <input type="text" class="form-control" name="price" id="price" placeholder="e.g. 24.99" required>
+                  <div class="invalid-feedback">Please enter a valid price.</div>
+                </div>
+
+                <!-- Quantity -->
+                <div class="mb-3">
+                  <label for="quantity" class="form-label fw-semibold">Units Available</label>
+                  <input type="number" class="form-control" name="quantity" id="quantity" min="1" required>
+                  <div class="invalid-feedback">Please enter how many units are available.</div>
+                </div>
+
+                <!-- Description -->
+                <div class="mb-3">
+                  <label for="description" class="form-label fw-semibold">Product Description</label>
+                  <textarea
+                    name="description"
+                    id="description"
+                    class="form-control"
+                    rows="4"
+                    maxlength="399"
+                    placeholder="Describe your product..."
+                    required
+                  ></textarea>
+                  <div class="invalid-feedback">Please add a description (max 399 characters).</div>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="d-grid">
+                  <button type="submit" class="btn btn-primary btn-lg fw-semibold">Add Product</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+    <%- include('partials/footer') %>
+  </body>
 </html>
+

@@ -1,13 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Purchase Complete</title>
-  </head>
+  <%- include('partials/header') %>
   <body>
     <%- include('partials/nav') %> 
     <h1>Thank you for your purchase!</h1>
     <p>You just supported a local entrepreneur!</p>
+
+    <%- include('partials/footer') %>
   </body>
 </html>
+
+
+<!-- <!DOCTYPE html>
+<html lang="en"> -->
+  <%- include('partials/header', { title: 'Thank You - HowdyDo' }) %>
+  <body class="bg-light">
+    <%- include('partials/nav') %>
+
+
+
+    <!-- 🧡 Thank You Section -->
+    <section class="py-5 bg-white">
+      <div class="container text-center">
+        
+        <!-- Icon & Message -->
+        <div class="mb-4">
+          <div class="display-1 text-success mb-3">🎉</div>
+          <h1 class="fw-bold text-primary">Thank You for Your Purchase!</h1>
+          <p class="lead text-muted mt-3">
+            You just supported a local entrepreneur — and helped keep Austin thriving.
+          </p>
+        </div>
+
+        <!-- Divider -->
+        <hr class="my-5 w-50 mx-auto opacity-50">
+
+        <!-- Next Steps -->
+        <div class="row justify-content-center g-4">
+          <div class="col-md-4">
+            <div class="card shadow-sm border-0 h-100">
+              <div class="card-body">
+                <div class="fs-2 text-primary mb-2">🛍️</div>
+                <h5 class="fw-semibold">Keep Browsing</h5>
+                <p class="text-muted small">Explore more unique items from local vendors.</p>
+                <a href="/products" class="btn btn-outline-primary btn-sm mt-2">View Products</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="card shadow-sm border-0 h-100">
+              <div class="card-body">
+                <div class="fs-2 text-primary mb-2">💬</div>
+                <h5 class="fw-semibold">Spread the Word</h5>
+                <p class="text-muted small">Tell your friends about HowdyDo and help local businesses grow.</p>
+                <a href="/" class="btn btn-outline-primary btn-sm mt-2">Share the Mission</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="card shadow-sm border-0 h-100">
+              <div class="card-body">
+                <div class="fs-2 text-primary mb-2">🤝</div>
+                <h5 class="fw-semibold">Join as a Vendor</h5>
+                <p class="text-muted small">Have something to sell? Become part of the HowdyDo marketplace.</p>
+                <a href="/auth/signup" class="btn btn-outline-primary btn-sm mt-2">Sign Up</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CTA Button -->
+        <div class="mt-5">
+          <a href="/products" class="btn btn-primary btn-lg px-5 fw-semibold">Continue Shopping</a>
+        </div>
+      </div>
+    </section>
+
+
+
+    <%- include('partials/footer') %>
+  </body>
+</html>
+

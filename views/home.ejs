@@ -1,19 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>HowdyDo</title>
-  </head>
+
+    <%- include('partials/header') %>
+
   <body>
+    
     <%- include('partials/nav') %> 
     <h1>Welcome to HowdyDo</h1>
     <p>An app to help you shop local</p>
 
-    <button class="sign-up-button">Become a Member!</button>
-    <script src="/js/home.js"></script> 
-    <!-- links the home.js file to EJS view -->
+    <a href="/auth/signup">Sign up</a>
+
+
+    <%- include('partials/footer') %>
   </body>
 </html>
 
+
+
+    <!-- <button class="sign-up-button">Become a Member!</button>
+    <script src="/js/home.js"></script>  -->
+    <!-- links the home.js file to EJS view -->
+
+    <!-- <!DOCTYPE html>
+<html lang="en"> -->
+
+
+  -- AI bootstrap style below --
+  <%- include('partials/header', { title: 'HowdyDo — Shop Local, Shop Austin' }) %>
+
+  <body class="bg-light">
+    <!-- Navbar -->
+    <%- include('partials/nav') %>
+
+    <!-- Hero Section -->
+    <section class="py-5 bg-primary text-white text-center">
+      <div class="container">
+        <h1 class="display-3 fw-bold">Welcome to HowdyDo</h1>
+        <p class="lead mb-4">
+          Supporting Austin’s local entrepreneurs — shop, connect, and grow together.
+        </p>
+        <a href="/auth/signup" class="btn btn-light btn-lg px-5 fw-semibold">
+          Get Started
+        </a>
+      </div>
+    </section>
+
+    <!-- Mission Section -->
+    <section class="py-5">
+      <div class="container text-center">
+        <h2 class="fw-bold mb-4 text-primary">Our Mission</h2>
+        <p class="text-muted mx-auto" style="max-width: 700px;">
+          HowdyDo was founded on Austin’s East Side to empower local business owners.
+          We believe Main Street deserves the same tools as Wall Street — giving every
+          Austin entrepreneur a place to share their products and connect with their community.
+        </p>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-5 bg-white">
+      <div class="container">
+        <div class="row text-center g-4">
+          <div class="col-md-4">
+            <div class="card border-0 shadow-sm h-100">
+              <div class="card-body">
+                <div class="mb-3 text-primary fs-1">🏪</div>
+                <h5 class="card-title fw-bold">Support Local Vendors</h5>
+                <p class="text-muted">
+                  Every purchase directly supports Austin-based small businesses — not corporations.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="card border-0 shadow-sm h-100">
+              <div class="card-body">
+                <div class="mb-3 text-primary fs-1">💬</div>
+                <h5 class="card-title fw-bold">Community Stories</h5>
+                <p class="text-muted">
+                  Discover the people behind the products — each vendor has a unique Austin story.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="card border-0 shadow-sm h-100">
+              <div class="card-body">
+                <div class="mb-3 text-primary fs-1">🌵</div>
+                <h5 class="card-title fw-bold">Made in Austin</h5>
+                <p class="text-muted">
+                  From East Side artisans to Hill Country growers, HowdyDo celebrates Texas pride.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="py-5 bg-primary text-white text-center">
+      <div class="container">
+        <h2 class="fw-bold mb-3">Join the Movement</h2>
+        <p class="lead mb-4">
+          Create your free vendor account or start shopping local today.
+        </p>
+        <a href="/auth/signup" class="btn btn-light btn-lg px-5 fw-semibold">
+          Sign Up
+        </a>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <%- include('partials/footer') %>
+  </body>
+</html>
 
