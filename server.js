@@ -9,24 +9,25 @@ const morgan = require('morgan');
 const app = express();
 app.use(express.urlencoded({ extended: false }));
 
-const port = process.env.PORT ? process.env.PORT : "3000";
+// ------------------------------------------------------------
+// const port = process.env.PORT ? process.env.PORT : "3000";
 // comes in handy when deploying and we dont know in advance 
 // which port the hosting service will use. 
 // in the AWS lessons we edited the rules for which ports to use.
 // How does this tie in with that? 
 
-const authController = require("./controllers/auth.js");
+// const authController = require("./controllers/auth.js");
 
 
 
-// ------------------------------------------------------------
-// // AI Auth changes *** 
+
+// Auth changes *** 
 // const path = require('path');
 // const session = require('express-session');
 // const MongoStore = require('connect-mongo');
 // const passport = require('passport');
 // require('./config/passport')(passport);
-// // Auth Changes ** 
+// Auth Changes ** 
 // app.use(express.static(path.join(__dirname, 'public')));
 //  -----------------------------------------------------------
 
@@ -45,12 +46,12 @@ const Cart = require('./models/cart.js')
 const Product = require('./models/products.js') 
 // important that models are connected  after connection to Mongo (lines 12-14)
 // Auth
-const User = require("./models/user.js");
+// const User = require("./models/user.js");
 
 app.use(methodOverride("_method"));
 app.use(morgan("dev")); 
 
-// AI Auth changes *** --------------------------------------------------------------
+
 // app.use(session({
 //   secret: process.env.SESSION_SECRET,
 //   resave: false,
@@ -129,6 +130,9 @@ app.get("/cart", async (req, res) => {
     const cartItems = await Cart.find().populate('product');
     res.render("cart.ejs", {cartItems});
 });
+// /cart references which URL the server is referencing. 
+// .find a mongoose goes into MongoDB. Specifically Cart. 
+// .populate replaces ObjectId with data from another schema dataset here product. 
 
 
 app.post('/product', async (req, res) => {
@@ -139,7 +143,7 @@ app.post('/product', async (req, res) => {
         // parseInt makes a string into an integer. When numbers come into
         // req.body they are still strings. parseInt helps to change the data type into a number
         price: Math.round(parseFloat(req.body.price) * 100) 
-        // Math.round takes a number and rounds to nearest integer. Multiplying by 100 and
+        // Math.round takes a number and rounds to nearest whole number. Multiplying by 100 and
         // rounding using math.round stores the 'price' as integer cents.
         // when displaying the price, we have to divide by 100 or the site visitor
         // will see the price in cents. <%= (product.price / 100) %>
@@ -149,7 +153,7 @@ app.post('/product', async (req, res) => {
    } 
 );
 // had to add a conversion step because the floating-point math in 
-// JS can be wrong when dealing with fractions. 
+// JS can be wrong when dealing with fractions.
 
 
 app.post('/cart/checkout', async (req, res) => {
@@ -161,10 +165,13 @@ app.post('/cart/checkout', async (req, res) => {
     }
 
     for (const item of cartItems) {
+        // for loop going through each item in the array and running the process below.
         const stockUpdate = item.product.quantity - item.quantity;
+        // to update the amount of stock in the database once a purchase is complete.
         await Product.findByIdAndUpdate(item.product._id, {quantity: stockUpdate});
-    }
+    }   // referencing Product to then find the item then update with stockupdate. 
     await Cart.deleteMany({});
+    // .deleteMany deletes multiple files given a filter. 
     res.redirect('/thank-you');
 }
 );
